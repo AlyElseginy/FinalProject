@@ -6,6 +6,7 @@ public class Main {
         String[] BookTitles = new String[100];
         String[] BookDescriptions = new String[100];
         Boolean[] BookAvailability = new Boolean[100];
+        int[] BookIDs = new int[100];
         int BookCount = 0;
         /* Several arrays are created, defining them as "Strings" due to their type being group of characters, and "BookAvailability" as a Boolean, since the book is
         available or not. Maximum amount of the library is 100, so we stated that as well, and started the count from 0.*/
@@ -17,19 +18,19 @@ public class Main {
 
             switch (option) { // Using switch easier than nested ifs, for when a user chooses an option, it'll direct him to their respective cases.
                 case 1:
-                    BookCount = AddBook(input, BookTitles, BookDescriptions, BookAvailability, BookCount); break;
+                    BookCount = AddBook(input, BookTitles, BookDescriptions, BookAvailability, BookCount, BookIDs); break;
                 case 2:
-                    searchForBook(input, BookTitles, BookCount); break;
+                    searchForBook(input, BookTitles, BookCount, BookIDs); break;
                 case 3:
-                    issueBook(input, BookTitles, BookAvailability, BookCount); break;
+                    issueBook(input, BookTitles, BookAvailability, BookCount, BookIDs); break;
                 case 4:
-                    returnBook(input, BookTitles, BookAvailability, BookCount); break;
+                    returnBook(input, BookTitles, BookAvailability, BookCount, BookIDs); break;
                 case 5:
-                    BookCount = deleteBook(input, BookTitles, BookDescriptions, BookAvailability, BookCount); break;
+                    BookCount = deleteBook(input, BookTitles, BookDescriptions, BookAvailability, BookCount, BookIDs); break;
                 case 6:
                     editBook(input, BookTitles, BookDescriptions, BookCount); break;
                 case 7:
-                    viewBooks(BookTitles, BookDescriptions, BookAvailability, BookCount); break;
+                    viewBooks(BookTitles, BookDescriptions, BookAvailability, BookCount, BookIDs); break;
                 case 8:
                     System.out.println("You're proceeding to exit the menu.");
                     return;
@@ -41,11 +42,13 @@ public class Main {
         }
     }
 
-    public static int AddBook(Scanner input, String[] titles, String[] descriptions, Boolean[] availability, int count) {
+    public static int AddBook(Scanner input, String[] titles, String[] descriptions, Boolean[] availability, int count, int[] ids) {
         if (count >= titles.length) { // Length of the books which is 100.
             System.out.println("Library is full. Cannot add more books."); // If number equal or exceeds 100, we won't be able to add more books.
             return count;
         }
+        ids[count] = count + 1;
+        System.out.println("Assigned Book ID: " + ids[count]); // When a book is added, an ID will be automatically assigned to the book.
         /* Since we'll use various methods, we'll need to make a new class other than the main one, followed by all types of arrays we'll use for each function of its
         respective array */
         System.out.print("Enter book title: ");
@@ -60,45 +63,75 @@ public class Main {
         return count + 1; // Increasing the amount of books in the library, after a book is added.
     }
 
-    public static void searchForBook(Scanner input, String[] titles, int count) {
-        System.out.print("Enter book title to search: ");
-        String query = input.nextLine();
+    public static void searchForBook(Scanner input, String[] titles, int count, int[] ids) {
+        System.out.print("Would you like to search by:\n1.Book ID\n2.Book Title");
+        int Searchoption = input.nextInt();
+        input.nextLine();
+        switch (Searchoption) {
+            case 1: // Option 1 for the user, that allows him to enter the book's ID to search with.
+                System.out.print("Enter book ID to search: ");
+                int idsearch = input.nextInt();
 
-        for (int i = 0; i < count; i++) {
-            if (titles[i] != null && titles[i].equalsIgnoreCase(query)) { // Using ignorecase as if user entered the correct name, but with wrong punctuation, it dissmises.
-                System.out.println("Book found: " + titles[i]);// Assuring the book is available and within the count.
-                return;
-            }
+
+                for (int i = 0; i < count; i++) {
+                    if (ids[i] == idsearch) {
+                        System.out.println("Book found:");
+                        System.out.println("ID: " + ids[i]);
+                        System.out.println("Title: " + titles[i]);
+                        return; // If it's found, it'll print the book's details for him.
+                    }
+                }
+                System.out.println("Book not found.");
+                break;
+
+
+            case 2: // Option to search by title.
+                System.out.print("Enter book title to search: "); // Obviously by title, option 2.
+                String TitleSearch = input.nextLine();
+
+                for (int i = 0; i < count; i++) {
+                    if (titles[i] != null && titles[i].equalsIgnoreCase(TitleSearch)) { // Option to search with title, ignoring being case-sensitive.
+                        System.out.println("Book found:");
+                        System.out.println("ID: " + ids[i]);
+                        System.out.println("Title: " + titles[i]);
+                        return;
+                    }
+                }
+                System.out.println("Book not found.");
+                break;
+
+            default:
+                System.out.println("Invalid option. Please try again."); // In case there's no book that holds the same title.
         }
-
-        System.out.println("Book not found.");
     }
 
-    public static void issueBook(Scanner input, String[] titles, Boolean[] availability, int count) { // Calling arrays that will be used.
-        System.out.print("Enter book title to issue: "); // Asking the user for an input
-        String query = input.nextLine();
+
+    public static void issueBook(Scanner input, String[] titles, Boolean[] availability, int count, int[] ids) { // Calling arrays that will be used.
+        System.out.print("Enter book ID to issue: "); // Asking the user for an input
+        int issuebook = input.nextInt();
 
         for (int i = 0; i < count; i++) {
-            if (titles[i] != null && titles[i].equalsIgnoreCase(query)) {
+            if (ids[i] == issuebook) {
                 if (availability[i]) {
                     availability[i] = false;
                     System.out.println("Book issued successfully.");
                 } else {
                     System.out.println("Book is already issued.");
-                } // In this case, we check if the book's name entered by the user is available and within the book count, it'll be issued.
+                }
                 return;
-            }
+            } /* First it checks if the ID is within the correct range that the library beholds its books, if correct, there are cases, either it'll be issued if it's
+             available, or there's a possibility that it's already issued so it won't be available. */
         }
 
         System.out.println("Book not found.");
     }
 
-    public static void returnBook(Scanner input, String[] titles, Boolean[] availability, int count) {
-        System.out.print("Enter book title to return: ");
-        String query = input.nextLine();
+    public static void returnBook(Scanner input, String[] titles, Boolean[] availability, int count, int[] ids) {
+        System.out.print("Enter book ID to return: ");
+        int returnbook = input.nextInt();
 
         for (int i = 0; i < count; i++) {
-            if (titles[i] != null && titles[i].equalsIgnoreCase(query)) {
+            if (ids[i] == returnbook) {
                 if (!availability[i]) {
                     availability[i] = true;
                     System.out.println("Book returned successfully.");
@@ -113,25 +146,27 @@ public class Main {
         System.out.println("Book not found.");
     }
 
-    public static int deleteBook(Scanner input, String[] titles, String[] descriptions, Boolean[] availability, int count) {
-        System.out.print("Enter book title to delete: ");
-        String query = input.nextLine();
+    public static int deleteBook(Scanner input, String[] titles, String[] descriptions, Boolean[] availability, int count, int[] ids) {
+        System.out.print("Enter book ID to delete: ");
+        int deletebook = input.nextInt();
 
         for (int i = 0; i < count; i++) {
-            if (titles[i] != null && titles[i].equalsIgnoreCase(query)) {
+            if (ids[i] == deletebook) {
                 for (int j = i; j < count - 1; j++) {
                     titles[j] = titles[j + 1];
                     descriptions[j] = descriptions[j + 1];
                     availability[j] = availability[j + 1];
+                    ids[j] = ids[j + 1];
                 }
 
                 titles[count - 1] = null;
                 descriptions[count - 1] = null;
                 availability[count - 1] = null;
+                ids[count - 1] = 0;
                 count--;
 
                 System.out.println("Book deleted successfully.");
-                return count; // Return updated count
+                return count; // Updated count after it's removed.
             } /* Checking if the book is available, and if it is, we'll delete it successfully from the arrays such as descriptions, titles, and make availability false.
             Also, we'll reduce the count number by 1. */
         }
@@ -161,7 +196,7 @@ public class Main {
         System.out.println("Book not found.");
     }
 
-    public static void viewBooks(String[] titles, String[] descriptions, Boolean[] availability, int count) {
+    public static void viewBooks(String[] titles, String[] descriptions, Boolean[] availability, int count, int[] ids) {
         if (count == 0) {
             System.out.println("No books in the library.");
             return;
@@ -169,6 +204,7 @@ public class Main {
 
         System.out.println("\nLibrary Books:");
         for (int i = 0; i < count; i++) {
+            System.out.println("ID: " + ids[i]);
             System.out.println("Title: " + titles[i]);
             System.out.println("Description: " + descriptions[i]);
             System.out.println("Availability: " + (availability[i] ? "Available" : "Issued"));
