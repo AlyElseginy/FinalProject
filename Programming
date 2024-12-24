@@ -1,21 +1,21 @@
 import java.util.Scanner; // Importing the java scanner class to allow the user to enter his inputs.
 
-public class Prog1FinalProject {
+public class Main{
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        System.out.print("Enter the number of boxes you own: ");
-        int boxesno = input.nextInt(); // Clarifying the user's input for number of boxes as an integer, which will be used as a limit for the arrays as well.
- // Consume the newline character.
+        System.out.print("Enter the number of books you own: ");
+        int booksno = input.nextInt(); // Clarifying the user's input for number of boxes as an integer, which will be used as a limit for the arrays as well.
+        // Consume the newline character.
         input.nextLine();
 
-        String[] BookTitles = new String[boxesno];
-        String[] BookDescriptions = new String[boxesno];
-        boolean[] BookAvailability = new boolean[boxesno];
-        int[] BookIDs = new int[boxesno];
+        String[] BookTitles = new String[booksno];
+        String[] BookDescriptions = new String[booksno];
+        boolean[] BookAvailability = new boolean[booksno];
+        int[] BookIDs = new int[booksno];
         /* In these four lines, we created the arrays, and stored the first two in "String" type due to being texts, and book availability to be boolean, as the book
-        * is either available, or not found, there isn't any other option. And obviously bookids as an integer. In the brackets, we stated the limit of the arrays to
-        * "boxesno" which is the number of boxes that the user will insert, as it'll be the maximum amount of books that can be stored. */
+         * is either available, or not found, there isn't any other option. And obviously bookids as an integer. In the brackets, we stated the limit of the arrays to
+         * "booksno" which is the number of boxes that the user will insert, as it'll be the maximum amount of books that can be stored. */
 
         int BookCount = 0; // Starting the count from 0.
 
@@ -26,12 +26,12 @@ public class Prog1FinalProject {
 
             switch (option) { // Switch cases for each different option, leading to different functions and etc.
                 case 1: // Adding a book to the library.
-                    if (BookCount >= boxesno) { // If the library is full, and the book count is equal to the no. of boxes user inserted, it won't be able to add.
+                    if (BookCount >= booksno) { // If the library is full, and the book count is equal to the no. of boxes user inserted, it won't be able to add.
                         System.out.println("Library is full. Cannot add more books.");
                         break;
                     }
-                          else
-                    BookIDs[BookCount] = BookCount + 1; // If library isn't full, it'll add the book to the library, and assign the ID according to the count.
+                    else
+                        BookIDs[BookCount] = BookCount + 1; // If library isn't full, it'll add the book to the library, and assign the ID according to the count.
                     System.out.println("Assigned Book ID: " + BookIDs[BookCount]);
 
                     System.out.print("Enter book title: ");
@@ -87,10 +87,10 @@ public class Prog1FinalProject {
                                 System.out.println("Title: " + BookTitles[i]);
                                 System.out.println("Description: " + BookDescriptions[i]);
                                 if (BookAvailability[i]) { // Either it's available or issued to someone atm.
-                                System.out.println("Availability: Available");
+                                    System.out.println("Availability: Available");
                                 } else {
-                                System.out.println("Availability: Issued");
-                            }                                found = true; // Assiging the boolean to a new status, TRUE.
+                                    System.out.println("Availability: Issued");
+                                }                                found = true; // Assiging the boolean to a new status, TRUE.
                                 break;
                             }
                         }
@@ -217,9 +217,9 @@ public class Prog1FinalProject {
                             System.out.println("Title: " + BookTitles[i]);
                             System.out.println("Description: " + BookDescriptions[i]);
                             if (BookAvailability[i]) { // Either it's available or issued to someone atm.
-                            System.out.println("Availability: Available");
+                                System.out.println("Availability: Available");
                             } else {
-                            System.out.println("Availability: Issued");
+                                System.out.println("Availability: Issued");
                             }
                             System.out.println();
                         } /* If the book count is 0 as it is, there'll be no books to view. But as long as it's more than 0 and less than the limit in the storage,
