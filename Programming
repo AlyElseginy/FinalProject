@@ -41,7 +41,7 @@ public class Main{
                     do {
                         System.out.print("Enter book title: ");
                         title = input.nextLine().trim(); // Trim is used to prevent any invalid input like spaces to be considered.
-                        if (title.isEmpty()) { // If spaces only as an input detected, it'll print out the following message. 
+                        if (title.isEmpty()) { // If spaces only as an input detected, it'll print out the following message.
                             System.out.println("Title cannot be empty or just spaces. Please enter a valid title.");
                         }
                     } while (title.isEmpty()); // Then it'll repeat the process of allowing the user to re-insert his title.
@@ -50,12 +50,12 @@ public class Main{
                     // Loop until a valid description is entered.
                     do {
                         System.out.print("Enter book description : ");
-                        description = input.nextLine().trim(); // Trim is used to prevent any invalid input like spaces to be considered.
-                        if (description.isEmpty()) {
+                        description = input.nextLine().trim(); // Trimming first, so it removes spaces next to characters, if available.
+                        if (description.isEmpty()) { // After trimming, if it's still consists of only spaces, and no characters, it'll print invalid.
                             System.out.println("Description cannot be empty or just spaces. Please enter a valid description.");
                         }
                     } while (description.isEmpty());
-                    BookDescriptions[BookCount] = description; // Same process as above. 
+                    BookDescriptions[BookCount] = description; // Same process as above.
 
                     BookAvailability[BookCount] = true; // Changes the boolean status to true, as it's available for later usuage.
                     System.out.println("Book added successfully.");
@@ -94,8 +94,17 @@ public class Main{
                             System.out.println("Book not found.");
                         }
                     } else if (searchOption == 2) {
-                        System.out.print("Enter book title to search: ");
-                        String Searchtitle = input.nextLine();
+                        String Searchtitle;
+                        do {
+                            System.out.print("Enter book title to search: ");
+                            Searchtitle = input.nextLine().trim();  // To be able to track later on if title inserted consists of spaces only, trims it.
+
+                            // Check if the title is empty after trimming spaces
+                            if (Searchtitle.isEmpty()) {
+                                System.out.println("Title cannot be empty or just spaces. Please enter a valid title.");
+                            }
+                        } while (Searchtitle.isEmpty()); // Repeat the process until a valid input is inserted.
+
 
                         boolean found = false;
                         for (int i = 0; i < BookCount; i++) { // As above, will be found if less than the book count and available.
