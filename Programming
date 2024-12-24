@@ -1,6 +1,6 @@
 import java.util.Scanner; // Importing the java scanner class to allow the user to enter his inputs.
 
-public class Main {
+public class Prog1FinalProject {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
@@ -62,7 +62,11 @@ public class Main {
                                 System.out.println("ID: " + BookIDs[i]);
                                 System.out.println("Title: " + BookTitles[i]);
                                 System.out.println("Description: " + BookDescriptions[i]);
-                                System.out.println("Availability: " + (BookAvailability[i] ? "Available" : "Issued")); // Either it's available or issued to someone atm.
+                                if (BookAvailability[i]) { // Either it's available or issued to someone atm.
+                                    System.out.println("Availability: Available");
+                                } else {
+                                    System.out.println("Availability: Issued");
+                                }
                                 found = true;
                                 break;
                             }
@@ -82,8 +86,11 @@ public class Main {
                                 System.out.println("ID: " + BookIDs[i]);
                                 System.out.println("Title: " + BookTitles[i]);
                                 System.out.println("Description: " + BookDescriptions[i]);
-                                System.out.println("Availability: " + (BookAvailability[i] ? "Available" : "Issued"));
-                                found = true; // Assiging the boolean to a new status, TRUE.
+                                if (BookAvailability[i]) { // Either it's available or issued to someone atm.
+                                System.out.println("Availability: Available");
+                                } else {
+                                System.out.println("Availability: Issued");
+                            }                                found = true; // Assiging the boolean to a new status, TRUE.
                                 break;
                             }
                         }
@@ -209,7 +216,11 @@ public class Main {
                             System.out.println("ID: " + BookIDs[i]);
                             System.out.println("Title: " + BookTitles[i]);
                             System.out.println("Description: " + BookDescriptions[i]);
-                            System.out.println("Availability: " + (BookAvailability[i] ? "Available" : "Issued"));
+                            if (BookAvailability[i]) { // Either it's available or issued to someone atm.
+                            System.out.println("Availability: Available");
+                            } else {
+                            System.out.println("Availability: Issued");
+                            }
                             System.out.println();
                         } /* If the book count is 0 as it is, there'll be no books to view. But as long as it's more than 0 and less than the limit in the storage,
                         it'll print the books' details.*/
