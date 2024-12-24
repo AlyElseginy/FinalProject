@@ -2,7 +2,7 @@ import java.util.Scanner; // Importing the java scanner class to allow the user 
 
 public class Main{
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in); // Allowing to read user inputs by creating a scanner object called "Scanner".
 
         System.out.print("Enter the number of books you own: ");
         int booksno = input.nextInt(); // Clarifying the user's input for number of boxes as an integer, which will be used as a limit for the arrays as well.
@@ -30,21 +30,39 @@ public class Main{
                         System.out.println("Library is full. Cannot add more books.");
                         break;
                     }
-                    else
-                        BookIDs[BookCount] = BookCount + 1; // If library isn't full, it'll add the book to the library, and assign the ID according to the count.
+
+                    BookIDs[BookCount] = BookCount + 1; // Assign the ID according to the count, which is initially 0, then + 1.
                     System.out.println("Assigned Book ID: " + BookIDs[BookCount]);
 
-                    System.out.print("Enter book title: ");
-                    BookTitles[BookCount] = input.nextLine();
+                    String title, description; /* Declaring two new strings, titles and description, to be able to prevent the user from entering any invalid input.
+                    Later on, we store it in the arrays.*/
 
-                    System.out.print("Enter book description: ");
-                    BookDescriptions[BookCount] = input.nextLine();
+                    // Loop until a valid title is entered.
+                    do {
+                        System.out.print("Enter book title: ");
+                        title = input.nextLine().trim(); // Trim is used to prevent any invalid input like spaces to be considered.
+                        if (title.isEmpty()) { // If spaces only as an input detected, it'll print out the following message. 
+                            System.out.println("Title cannot be empty or just spaces. Please enter a valid title.");
+                        }
+                    } while (title.isEmpty()); // Then it'll repeat the process of allowing the user to re-insert his title.
+                    BookTitles[BookCount] = title; // If valid, it'lll be stored.
 
-                    BookAvailability[BookCount] = true; // Mark the book as available.
+                    // Loop until a valid description is entered.
+                    do {
+                        System.out.print("Enter book description : ");
+                        description = input.nextLine().trim(); // Trim is used to prevent any invalid input like spaces to be considered.
+                        if (description.isEmpty()) {
+                            System.out.println("Description cannot be empty or just spaces. Please enter a valid description.");
+                        }
+                    } while (description.isEmpty());
+                    BookDescriptions[BookCount] = description; // Same process as above. 
+
+                    BookAvailability[BookCount] = true; // Changes the boolean status to true, as it's available for later usuage.
                     System.out.println("Book added successfully.");
 
-                    BookCount++; // Finally, after book is successfully added, the count will be increased by 1. Influencing future functions, availability, and new ID.
+                    BookCount++; // Books' count is increased after successfully being added.
                     break;
+
 
                 case 2: // Giving the user the freedom to either search by the book's id or by its title, according to the input he will insert, 1/2.
                     System.out.println("Search by:\n1. Book ID\n2. Book Title");
